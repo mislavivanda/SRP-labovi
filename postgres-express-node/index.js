@@ -102,14 +102,14 @@ async function init() {
    * * Message authentication (hash and MAC crypto functions)
    */
   try {
-    const secret = "my supper secret";
-    let message = "Authenticate this message.";
-
-    let hmac = crypto.createHmac("sha256", secret); // ! Message authentication code
-    let authTag = hmac.update(message).digest(); // ! Message digest/authentication code
+    const secret = "my supper secret";// kljuc
+   /* let message = "Authenticate this message";// poruka
+// sha uzima 256 bita na ulazu i daje 256 bita na izlazu,FIKSNO
+    let hmac = crypto.createHmac("sha256", secret); // ! Message authentication code, MAC funkcija prima ključ i poruku na ulazu
+    let authTag = hmac.update(message).digest(); // ! Message digest/authentication code, tag je uvijek fiskne veličine
     console.table([
-      { message, "message digest/authentication tag": authTag.toString("hex") },
-    ]);
+      { message, "message digest/authentication tag": authTag.toString("hex") },//TAG JE FIKSNE VELIČINE BEZ OBZIRA NA VELIČINU ULAZA
+    ]);*/
 
     // * ===============================
     // * Example: Authenticating a file
@@ -119,14 +119,14 @@ async function init() {
     if (CREATE_TAG) {
       // * Authenticate the file
 
-      const input = fs.createReadStream("test.txt");
-      const output = fs.createWriteStream("test.tag");
-      const hmac = crypto.createHmac("sha256", secret);
+      const input = fs.createReadStream("test.txt");// citamo file
+      const output = fs.createWriteStream("test.tag");//spremamo tag u file
+      const hmac = crypto.createHmac("sha256", secret);//instanca MAC funkcije s kljucem
 
-      hmac.update("text.txt"); // ! Protecting the file name
+      hmac.update("text.txt"); // ! Protecting the file name,stitimo ime dokumenta njgov integritet
       input
         .pipe(hmac) // ! Protecting the file content
-        .pipe(output)
+        .pipe(output)//ulazi u hmac funkciju uzima tag i sprema u ot+utput
         .on("finish", () => output.end());
     } else {
       // * Verify the file authenticity
