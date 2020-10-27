@@ -66,13 +66,13 @@ async function init() {
     let message = { message: "Authenticate this message." };
 
     // * Default token
-    let token = jwt.sign(message, secret);
+    let token = jwt.sign(message, secret);/*automatski mu dodaje timestamp kad je izdan*/
     let decodedToken = jwt.decode(token);
     console.log("\nDecoded token:", decodedToken); // * Return only payload
     console.log("Token:", token);
 
     // * Token with expiration time of 1h
-    token = jwt.sign(message, secret, { expiresIn: "1h" });
+    token = jwt.sign(message, secret, { expiresIn: "1h" });//parametar koji odreduje trajanje tokena,sign=funkcija radi potpis/MAC tag*/
     decodedToken = jwt.decode(token, { complete: true }); // * Include all parts
     console.log("\nDecoded token (complete):", decodedToken);
     console.log("Token:", token);
@@ -102,7 +102,7 @@ function verifyJwt({ token, secret }) {
       if (error) {
         return reject({ error: error.message });
       }
-      resolve(decoded);
+      resolve(decoded);/*resolva promise sa dekodiranom vrijednosti*/
     });
   });
 }
