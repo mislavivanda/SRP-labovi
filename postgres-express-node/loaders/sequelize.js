@@ -12,4 +12,4 @@ async function assertDatabaseConnectionOk({ Logger }) {
   }
 }
 
-module.exports = ({ Logger }) => assertDatabaseConnectionOk({ Logger });
+module.exports = ({ Logger }) => assertDatabaseConnectionOk({ Logger });//exporta funkciju koja ce u indexu primit logger

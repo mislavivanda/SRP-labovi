@@ -23,7 +23,7 @@ module.exports = ({ app, HttpLogger: logger }) => {
   //---------------------------
   // ERROR HANDLERS
   //---------------------------
-  // catch 404 and forward to error handler
+  // catch 404 and forward to error handler-> sa next funkcijom
   app.use((req, res, next) => {
     const err = new Error("Not Found");
     err.status = 404;
@@ -31,7 +31,7 @@ module.exports = ({ app, HttpLogger: logger }) => {
   });
 
   // ultimate error handler
-  app.use((err, req, res, next) => {
+  app.use((err, req, res, next) => {// midleware error handler-> prima 4 argumenta
     res.status(err.status || 500);
     res.json({
       error: {
