@@ -1,5 +1,6 @@
 // Source: https://gist.github.com/CacheControl/79dd9f5c7e7f798f368e#file-medium-api-parameters-middleware-js
 const Ajv = require("ajv");
+<<<<<<< HEAD
 
 const ajv = new Ajv({
   allErrors: true,
@@ -7,6 +8,10 @@ const ajv = new Ajv({
 });
 
 ajv.addMetaSchema(require("ajv/lib/refs/json-schema-draft-06.json"));
+=======
+//VALIDATOR KOJI PROVJERAVA JESU LI DANI PODACI U SKLADU SA SHEMOM
+const ajv = new Ajv({ allErrors: true, removeAdditional: true });
+>>>>>>> e017cac... 'Code_comments'
 
 exports.addSchemas = (schemas) => {
   for (const schema in schemas) {

@@ -1,5 +1,5 @@
 const dotenv = require("dotenv");
-
+//pristup env varijalama preko globalnog process objekta-> process.env.IMEENV VARIJABLE U .env datoteci
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 const envFound = dotenv.config();
@@ -19,11 +19,11 @@ module.exports = {
       level: process.env.LOG_LEVEL || "debug",
     },
     morgan: {
-      format: process.env.MORGAN_FORMAT || "combined",
+      format: process.env.MORGAN_FORMAT || "combined",//definirano u env fileu
     },
   },
 
-  api: {
+  api: {//config.api.prefix = /api
     prefix: "/api",
   },
 };

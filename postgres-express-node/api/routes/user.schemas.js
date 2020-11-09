@@ -1,4 +1,4 @@
-exports.getUser = {
+exports.getUser = {//definiramo kave oblike prihvacamo za odredene funkcije 
   title: "Find user by a username",
   type: "object",
   properties: {

@@ -1,6 +1,6 @@
 
 
-exports.login = {
+exports.login = {//definiramo kakve oblike prihvacamo od korisnika
   title: "Sign in a user",
   type: "object",
   properties: {

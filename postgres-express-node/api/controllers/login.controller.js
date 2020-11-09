@@ -1,5 +1,5 @@
 const winston = require("winston");
-const { loginServiceInstance } = require("../../services");
+const { loginServiceInstance } = require("../../services");//u index.js fileu u servisima je napravljena instanca servisa za login
 
 const Logger = winston.loggers.get("logger");
 

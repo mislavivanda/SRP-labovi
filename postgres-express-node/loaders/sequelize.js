@@ -1,7 +1,7 @@
 const { sequelize } = require("../models");
 
 async function assertDatabaseConnectionOk({ Logger }) {
-  Logger.info("Checking database connection...");
+  Logger.info("Checking database connection...");//standardni ispis samo ne preko console.log nego preko loggera
 
   try {
     await sequelize.authenticate();
