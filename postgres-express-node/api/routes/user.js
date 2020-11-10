@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const UserSchemas = require("./user.schemas");
 const SchemaValidator = require("../middleware/validate");
 const UserController = require("../controllers/user.controller");
