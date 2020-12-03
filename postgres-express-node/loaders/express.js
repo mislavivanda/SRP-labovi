@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const config = require("../config");
 const routes = require("../api");
+const jwt=require('express-jwt');//middleware za validaciju tokena
 module.exports = ({ app, HttpLogger: logger }) => {
   //---------------------------
   // REGISTER MIDDLEWARE
@@ -13,7 +14,12 @@ module.exports = ({ app, HttpLogger: logger }) => {
   app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
+  app.use(jwt({
+    secret: config.jwt.secret,
+    algorithms:config.jwt.algorithms
+  }
 
+  ).unless(config.jwt.exclude));
   //---------------------------
   // LOAD/MOUNT API ROUTES
   // (path prefix e.g. /api)
@@ -29,7 +35,13 @@ module.exports = ({ app, HttpLogger: logger }) => {
     err.status = 404;
     next(err);
   });
-
+app.use((err,req,res,next)=>{
+  if(err.name==='Unauthorized error')
+  {
+    err.status=401;
+    err.message='Not authorized(invalid token)';
+  }
+});
   // ultimate error handler
   app.use((err, req, res, next) => {
     res.status(err.status || 500).json({

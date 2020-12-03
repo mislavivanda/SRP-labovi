@@ -22,8 +22,21 @@ module.exports = {
       format: process.env.MORGAN_FORMAT || "combined",
     },
   },
-
+//For JSON Web token
   api: {
     prefix: "/api",
   },
+  jwt:{
+    secret: process.env.JWT_SECRET,
+    expiresIn: process.env.JWT_DURATION||'1h',
+    algorithms:['HS256'],
+    exclude:{//PROVJERAVA ZAHTJEVE NA SVE PATHOVE OSIM NA API/LOGIN I KADA KORISTI METODU POST
+      path :[
+        {
+        url:'/api/login',
+        methods:['POST']
+      }
+      ]
+     }
+  }
 };
