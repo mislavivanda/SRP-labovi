@@ -1,5 +1,6 @@
 const jwt=require('jsonwebtoken');
 const config=require('../config');
+const bcrypt=require("bcryptjs");
 class LoginService {
   constructor({ logger, userModel }) {
     this.userModel = userModel;
@@ -17,8 +18,9 @@ class LoginService {
     throw new Error("Authnetication failed");//uvati je login controler
   }
 
-  this.logger.info('Checking password');
-  if(userRecord.password===password)
+  this.logger.info('Checking password');//password je pssword hash u bazi
+  const validpassword=await bcrypt.compare(password,userRecord.password);//provlacenje passworda i soli kroz hash funkciju i usporedba s hash vrijednosti iz baze i vrati boolena
+  if(validpassword)//VIDI BROJ RUNDI JER JE ON ZAPISAN U HASHU U BAZI 
   {
     this.logger.info('Password correct.Proceed and generate JWT');
     const user={
