@@ -6,9 +6,9 @@ const { loginServiceInstance } = require("../../services");
 const Logger = winston.loggers.get("logger");
 
 // Setup Rate Limiter
-const loginLimiter = new RateLimiterMemory(config.rateLimiter.loginPath);
+const loginLimiter = new RateLimiterMemory(config.rateLimiter.loginPath);//TU SE NALAZE U CONFIG FILEU PARAMETRI U loginPath objektu DURATION,KREDIT I BLOCKDURATION
 
-const tooManyRequests = (limiterRes, res) => {
+const tooManyRequests = (limiterRes, res) => {//POZIVAMO JE KADA PREKRDASI BROJ KREDITA
   const retrySecs = Math.round(limiterRes.msBeforeNext / 1000) || 1;
   if (retrySecs > 0) {
     res.set({ "Retry-After": retrySecs });
@@ -24,12 +24,12 @@ exports.login = async (req, res) => {
 
     if (
       loginLimiterRes &&
-      loginLimiterRes.consumedPoints > config.rateLimiter.loginPath.points
+      loginLimiterRes.consumedPoints > config.rateLimiter.loginPath.points//gledamo jesu li potroseni svi krediti za taj username prije nego krenemo provjeravat password
     ) {
-      return tooManyRequests(loginLimiterRes, res);
+      return tooManyRequests(loginLimiterRes, res);//ako su potrosenui krediti->NE RADIMO NIKAKAVE PROVJERE I UPOZORAVAMO DA NEMA VISE KREDITA->BLOKIRAJ DALJNJE REQUESTOVE
     }
 
-    const { user, token } = await loginServiceInstance.login({
+    const { user, token } = await loginServiceInstance.login({//NIJE POTROSEN KREDIT
       username,
       password,
     });
@@ -45,7 +45,7 @@ exports.login = async (req, res) => {
     switch (err.name) {
       case "UsernameValidationError":
         return res.status(401).json({ error: { message: err.message } });
-      case "PasswordValidationError":
+      case "PasswordValidationError"://KRIVI PASSWORD->SMANJI MU KREDIT->consume kredit za taj username
         try {
           await loginLimiter.consume(err.username);
           return res.status(401).json({ error: { message: err.message } });
@@ -55,7 +55,7 @@ exports.login = async (req, res) => {
               .status(400)
               .json({ error: { message: loginLimiterRejected.message } });
           } else {
-            return tooManyRequests(loginLimiterRejected, res);
+            return tooManyRequests(loginLimiterRejected, res);//javija se drugi tip errora od standarnoig objekta Error
           }
         }
       default:

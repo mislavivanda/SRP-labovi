@@ -71,7 +71,7 @@ const testWord = async (data) => {
       console.log(`Testing: ${word}`);
 
       const { data } = await axios.request(
-        options({ username: "mcagalj", password: word })
+        options({ username: "test2", password: word })
       );
 
       console.log(`Response: ${JSON.stringify(data, null, 2)}\n`);

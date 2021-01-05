@@ -3,15 +3,15 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
-
-class UsernameValidationError extends Error {
+//RAZLIKUJEMO 2 KLASE GRESKI
+class UsernameValidationError extends Error {//unesen username koji ne postoji
   constructor(message) {
     super(message);
     this.name = "UsernameValidationError";
   }
 }
 
-class PasswordValidationError extends Error {
+class PasswordValidationError extends Error {//unsena kriva lozinka za ISPRAVAN USERNAME-> POTROSEN KREDIT DA VODIMO RACUNA
   constructor(message, username) {
     super(message);
     this.name = "PasswordValidationError";
@@ -59,7 +59,7 @@ class LoginService {
       return { user, token };
     }
 
-    this.logger.error("Invalid password");
+    this.logger.error("Invalid password");//SKINI MU KREDIT
     throw new PasswordValidationError("Authentication failed", username);
   }
 
