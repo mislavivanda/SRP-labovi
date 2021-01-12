@@ -17,7 +17,7 @@ const anonymous = null;
 // * =============================
 // *  MedicalTests
 // * -----------------------------
-const MedicalTest_1 = subject("MedicalTest", {
+const MedicalTest_1 = subject("MedicalTest", {//subject zapravo predstavlja objekt u sustavu->"Medical test predstavlja naziv objekta,naziv klase objekata-> sve instance definirane s ovim su zapravo instance od te klase,pripadaju toj klasi "
   id: 1,
   UserId: 1,
   test: "Covid",
@@ -62,9 +62,21 @@ const MedicalTest_5 = subject("MedicalTest", {
 // * =============================
 // *  Roles <--> permissions
 // * -----------------------------
-function defineAdminRules({ can }, user) {}
+//definicija dopustenja sa odredene role,povezivanje->DEFINICIJA POLICYA
+function defineAdminRules({ can }, user) {//prava od admina
+  can('manage','all');//can je funkcija provideana od castlea
+}
 function defineDoctorRules({ can }, user) {}
-function defineUserRules({ can }, user) {}
+function defineUserRules({ can }, user) {
+  //can('read','MedicalTest',{UserId:user.id});//dio u {} predstavlja uvjet-> moze citat samo one testove di je UserId stupac njegov id
+  //can('create','MedicalTest',{UserId:user.id});
+ // can('update','MedicalTest',{UserId:user.id});
+  //can('delete','MedicalTest',{UserId:user.id});
+  //krace mozemo stavit dozovljene operacije u niz
+  can(['read','create','update','delete'],//Koje operacije moze radit?
+  'MedicalTest',//Za koje objekte(odnosno u subject u castl)
+  {UserId:user.id});//Koje od svih tih objekata?
+}
 function defineAnonymousRules({ can }, user) {}
 
 // * =============================
