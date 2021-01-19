@@ -66,6 +66,7 @@ function defineDoctorRules({ can }, user) {
 }
 
 function defineUserRules({ can }, user) {
+  
   // entity User
   can(["read", "delete"], "User", { id: user.id });
   can(["update"], "User", ["username", "password"], {

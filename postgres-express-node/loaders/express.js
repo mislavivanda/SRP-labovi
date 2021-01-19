@@ -23,7 +23,7 @@ module.exports = ({ app, HttpLogger, Logger }) => {
     jwt({
       secret: config.jwt.secret,
       algorithms: config.jwt.algorithms,
-    }).unless(config.jwt.exclude)
+    }).unless(config.jwt.exclude)//excludeamo za te pathove uvjet za token
   );
   app.use(provideAbility({ logger: Logger })); // this should go after jwt verification
 
